@@ -5,7 +5,7 @@ import "fmt"
 /*
 BOOGABLOCK
 	DONE:
-		serialization, validation, mining, persistence, blockchain base implementation
+		serialization, validation, mining, database, blockchain base implementation
 	TODO:
 	Transactions (hashmerkleroot)
 		hashmerkleroot is updated when a transaction is made (store transactions)
@@ -25,6 +25,6 @@ func main() {
 
 	t := myChain.Database.rdb.Get(myChain.Database.ctx, "1")
 	//fmt.Println(t.Val())
-	b = DeserializeBlock([]byte(t.Val()))
+	b, _ = DeserializeBlock([]byte(t.Val()))
 	fmt.Println(string(b.Data))
 }
