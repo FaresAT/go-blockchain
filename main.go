@@ -5,10 +5,10 @@ import "fmt"
 /*
 BOOGABLOCK
 	DONE:
-		serialization, validation, mining, blockchain base implementation
+		serialization, validation, mining, persistence, blockchain base implementation
 	TODO:
 	Transactions (hashmerkleroot)
-		hashmerkleroot is updated when a transaction is made (store transacations)
+		hashmerkleroot is updated when a transaction is made (store transactions)
 	Network
 		network must be created to allow transactions to begin with, p2p transactions from a central db
 		addresses must be handled here, randomly generated addresses assigned to new users in the chain
@@ -19,21 +19,12 @@ BOOGABLOCK
 
 func main() {
 	myChain := NewChain("GENESIS BLOCK")
-
-	// grabbing the genesis block from a new chain
-	gen_val := myChain.Database.rdb.Get(myChain.Database.ctx, "1")
-	if gen_val.Err() != nil {
-		fmt.Println(gen_val.Err())
-	}
-	fmt.Println(gen_val.Val())
-
 	myChain.AddBlock("HEYO THIS IS THE FIRST ADDED BLOCK")
 
-	// grabbing the new block added to a chain
-	added_val := myChain.Database.rdb.Get(myChain.Database.ctx, "1")
-	if added_val.Err() != nil {
-		fmt.Println(added_val.Err())
-	}
-	fmt.Println(added_val.Val())
+	var b *Block
 
+	t := myChain.Database.rdb.Get(myChain.Database.ctx, "1")
+	//fmt.Println(t.Val())
+	b = DeserializeBlock([]byte(t.Val()))
+	fmt.Println(string(b.Data))
 }

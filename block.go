@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/gob"
+	"log"
 	"time"
 )
 
@@ -40,13 +41,14 @@ func (b *Block) SerializeBlock() ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
-func DeserializeBlock(buf []byte) (*Block, error) {
-	var b Block
-	decoder := gob.NewDecoder(bytes.NewReader(buf))
+func DeserializeBlock(buf []byte) *Block {
+	var block Block
 
-	err := decoder.Decode(&b)
+	decoder := gob.NewDecoder(bytes.NewReader(buf))
+	err := decoder.Decode(&block)
 	if err != nil {
-		return nil, err
+		log.Panic(err)
 	}
-	return &b, nil
+
+	return &block
 }
